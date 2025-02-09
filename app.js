@@ -20,6 +20,10 @@ app.use(bodyParser.json());
 
 app.use(routes);
 
+const passport = require("passport");
+
+app.use(passport.initialize());
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

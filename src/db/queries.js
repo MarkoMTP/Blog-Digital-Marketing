@@ -12,6 +12,22 @@ const addUserToDb = async function (userName, email, password) {
   });
 };
 
+const addAdminToDb = async function (
+  userName,
+  email,
+  password,
+  isAuthor = true
+) {
+  await prisma.user.create({
+    data: {
+      userName,
+      email,
+      password,
+      isAuthor,
+    },
+  });
+};
+
 const findUserEmail = async function (email) {
   const result = await prisma.user.findUnique({
     where: { email },
@@ -22,4 +38,5 @@ const findUserEmail = async function (email) {
 module.exports = {
   addUserToDb,
   findUserEmail,
+  addAdminToDb,
 };
