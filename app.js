@@ -2,7 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
-const routes = require("./src/routes/loginRoutes");
+const loginRoutes = require("./src/routes/loginRoutes");
+const postRoutes = require("./src/routes/postsRoutes");
+
 const prisma = new PrismaClient();
 const app = express();
 
@@ -18,7 +20,8 @@ const port = 9000;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(routes);
+app.use(loginRoutes);
+app.use(postRoutes);
 
 const passport = require("passport");
 

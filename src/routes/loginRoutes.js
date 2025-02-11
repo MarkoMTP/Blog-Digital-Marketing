@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
 // normal page
 // router.get("/register")
 
-router.post("/register", registerValidator, registerController);
+router.post("/register/user", registerValidator, registerController);
 
 // login get
 
@@ -39,7 +39,7 @@ router.get(
 );
 
 // for admin page
-router.post("/registerAdmin", registerValidator, registerAdminController);
+router.post("/register/admin", registerValidator, registerAdminController);
 
 router.get(
   "/adminProtected",
