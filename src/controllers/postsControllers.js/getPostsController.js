@@ -1,4 +1,9 @@
-const { findAllPosts, findPost, createPost } = require("../../db/postsQueries");
+const {
+  findAllPosts,
+  findPost,
+  createPost,
+  updatePost,
+} = require("../../db/postsQueries");
 
 const getPostsController = async (req, res) => {
   const posts = await findAllPosts();
@@ -26,8 +31,21 @@ const createNewPostController = async (req, res) => {
   res.send(`the  post is created  ${title}`);
 };
 
+const updatePostController = async (req, res) => {
+  const { title, content, isPublished } = req.body;
+  const { id: authorId } = req.user;
+  const { postId } = req.params;
+
+  await updatePost(postId, title, content, authorId, isPublished);
+
+  const post = await findPost(postId);
+
+  res.json(post);
+};
+
 module.exports = {
   getPostsController,
   getSpecificPostController,
   createNewPostController,
+  updatePostController,
 };

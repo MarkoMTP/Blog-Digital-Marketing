@@ -25,8 +25,27 @@ const createPost = async function (title, content, authorId, isPublished) {
   });
 };
 
+const updatePost = async function (
+  postId,
+  title,
+  content,
+  authorId,
+  isPublished
+) {
+  await prisma.post.update({
+    where: { id: postId },
+    data: {
+      title: title,
+      content: content,
+      isPublished: isPublished,
+      authorId: authorId,
+    },
+  });
+};
+
 module.exports = {
   findAllPosts,
   createPost,
   findPost,
+  updatePost,
 };
