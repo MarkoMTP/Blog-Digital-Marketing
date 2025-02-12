@@ -43,9 +43,16 @@ const updatePost = async function (
   });
 };
 
+const deletePost = async function (postId) {
+  await prisma.post.delete({
+    where: { id: postId },
+  });
+};
+
 module.exports = {
   findAllPosts,
   createPost,
   findPost,
   updatePost,
+  deletePost,
 };

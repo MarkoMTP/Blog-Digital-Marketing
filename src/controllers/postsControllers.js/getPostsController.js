@@ -3,6 +3,7 @@ const {
   findPost,
   createPost,
   updatePost,
+  deletePost,
 } = require("../../db/postsQueries");
 
 const getPostsController = async (req, res) => {
@@ -43,9 +44,26 @@ const updatePostController = async (req, res) => {
   res.json(post);
 };
 
+const deletePostController = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    const post = await findPost(postId);
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+
+    await deletePost(postId);
+    res.send("Post Deleted");
+  } catch (error) {
+    res.status(500).send("An error occurred while deleting the post");
+  }
+};
+
 module.exports = {
   getPostsController,
   getSpecificPostController,
   createNewPostController,
   updatePostController,
+  deletePostController,
 };

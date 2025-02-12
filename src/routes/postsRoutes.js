@@ -14,7 +14,7 @@ const {
   getPostsController,
   getSpecificPostController,
   createNewPostController,
-  draftPostController,
+  deletePostController,
   updatePostController,
 } = require("../controllers/postsControllers.js/getPostsController");
 
@@ -38,8 +38,14 @@ router.put(
   isAuthor,
   updatePostController
 );
+11;
 
-router.delete("/posts/:postId");
+router.delete(
+  "/posts/:postId",
+  passportAdmin.authenticate("jwt", { session: false }),
+  isAuthor,
+  deletePostController
+);
 
 //for drafts/unPublished posts
 
