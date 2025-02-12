@@ -16,15 +16,29 @@ const {
   createNewPostController,
   deletePostController,
   updatePostController,
-} = require("../controllers/postsControllers.js/getPostsController");
+} = require("../controllers/postControllers");
 
 //normal user
 
-router.get("/posts", getPostsController);
+router.get(
+  "/posts",
+  passport.authenticate("jwt", { session: false }),
+  getPostsController
+);
 
-router.get("/posts/:postId", getSpecificPostController);
+router.get(
+  "/posts/:postId",
+  passport.authenticate("jwt", { session: false }),
+  getSpecificPostController
+);
 
 // admin
+
+// for authors to see all their published blogs
+router.get("/posts/:userId");
+
+//to see all their unPublished posts
+router.get("/posts/drafts/:userId");
 
 router.post(
   "/posts",
@@ -46,7 +60,5 @@ router.delete(
   isAuthor,
   deletePostController
 );
-
-//for drafts/unPublished posts
 
 module.exports = router;

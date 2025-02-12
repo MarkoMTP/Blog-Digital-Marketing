@@ -49,10 +49,45 @@ const deletePost = async function (postId) {
   });
 };
 
+const getAllComments = async (postId) => {
+  const result = await prisma.comment.findMany({
+    where: { postId: postId },
+  });
+  return result;
+};
+
+const createComment = async (content, authorId, postId) => {
+  await prisma.comment.create({
+    data: {
+      content: content,
+      authorId: authorId,
+      postId: postId,
+    },
+  });
+};
+
+const deleteComment = async (postId, commentId) => {
+  const result = await prisma.comment.delete({
+    where: { postId: postId, id: commentId },
+  });
+  return result;
+};
+
+const findComment = async function (postId, commentId) {
+  const comment = await prisma.comment.findFirst({
+    where: { postId: postId, id: commentId },
+  });
+  return comment;
+};
+
 module.exports = {
   findAllPosts,
   createPost,
   findPost,
   updatePost,
   deletePost,
+  getAllComments,
+  createComment,
+  deleteComment,
+  findComment,
 };

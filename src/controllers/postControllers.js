@@ -10,7 +10,7 @@ const getPostsController = async (req, res) => {
   try {
     const posts = await findAllPosts();
 
-    if (!post) {
+    if (!posts) {
       return res.status(404).send("Post not found");
     }
 

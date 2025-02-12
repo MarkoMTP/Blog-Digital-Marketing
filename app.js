@@ -4,6 +4,7 @@ const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 const loginRoutes = require("./src/routes/loginRoutes");
 const postRoutes = require("./src/routes/postsRoutes");
+const commentRoutes = require("./src/routes/commentsRoutes");
 
 const prisma = new PrismaClient();
 const app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 
 app.use(loginRoutes);
 app.use(postRoutes);
+app.use(commentRoutes);
 
 const passport = require("passport");
 
