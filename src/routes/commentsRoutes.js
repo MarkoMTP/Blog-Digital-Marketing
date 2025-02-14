@@ -12,7 +12,6 @@ const {
 router.get(
   "/posts/:postId/comments",
   passport.authenticate("jwt", { session: false }),
-
   getCommentsController
 );
 

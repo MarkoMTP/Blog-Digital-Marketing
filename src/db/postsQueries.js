@@ -80,6 +80,19 @@ const findComment = async function (postId, commentId) {
   return comment;
 };
 
+const getaAllUserPosts = async (userId) => {
+  const posts = await prisma.post.findMany({
+    where: { authorId: userId, isPublished: true },
+  });
+  return posts;
+};
+
+const getaAllUserDrafts = async (userId) => {
+  const posts = await prisma.post.findMany({
+    where: { authorId: userId, isPublished: false },
+  });
+  return posts;
+};
 module.exports = {
   findAllPosts,
   createPost,
@@ -90,4 +103,6 @@ module.exports = {
   createComment,
   deleteComment,
   findComment,
+  getaAllUserPosts,
+  getaAllUserDrafts,
 };

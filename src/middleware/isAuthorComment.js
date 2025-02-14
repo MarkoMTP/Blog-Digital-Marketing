@@ -1,5 +1,6 @@
-const prisma = require("../prismaClient"); // Adjust path as needed
+const { PrismaClient } = require("@prisma/client");
 
+const prisma = new PrismaClient();
 const isAuthorComment = async (req, res, next) => {
   try {
     const { commentId } = req.params;

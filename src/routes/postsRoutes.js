@@ -16,6 +16,8 @@ const {
   createNewPostController,
   deletePostController,
   updatePostController,
+  getAllUserPostsController,
+  getAllUserDraftsController,
 } = require("../controllers/postControllers");
 
 //normal user
@@ -35,10 +37,18 @@ router.get(
 // admin
 
 // for authors to see all their published blogs
-router.get("/posts/:userId");
+router.get(
+  "/:userId/posts",
+  passportAdmin.authenticate("jwt", { session: false }),
+  getAllUserPostsController
+);
 
 //to see all their unPublished posts
-router.get("/posts/drafts/:userId");
+router.get(
+  "/:userId/drafts",
+  passportAdmin.authenticate("jwt", { session: false }),
+  getAllUserDraftsController
+);
 
 router.post(
   "/posts",
@@ -52,7 +62,6 @@ router.put(
   isAuthor,
   updatePostController
 );
-11;
 
 router.delete(
   "/posts/:postId",

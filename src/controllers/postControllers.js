@@ -4,6 +4,8 @@ const {
   createPost,
   updatePost,
   deletePost,
+  getaAllUserPosts,
+  getaAllUserDrafts,
 } = require("../db/postsQueries");
 
 const getPostsController = async (req, res) => {
@@ -93,10 +95,52 @@ const deletePostController = async (req, res) => {
   }
 };
 
+const getAllUserPostsController = async (req, res) => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const posts = await getaAllUserPosts(user.id);
+
+    if (!posts) {
+      return res.status(404).send("Posts not found");
+    }
+
+    res.json(posts);
+  } catch (err) {
+    res
+      .status(500)
+      .send(`An error occurred while getting the posts: ${err.message}`);
+  }
+};
+
+const getAllUserDraftsController = async (req, res) => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const drafts = await getaAllUserDrafts(user.id);
+
+    res.json(drafts);
+  } catch (err) {
+    res
+      .status(500)
+      .send(`An error occurred while fetching the drafts: ${err.message}`);
+  }
+};
+
 module.exports = {
   getPostsController,
   getSpecificPostController,
   createNewPostController,
   updatePostController,
   deletePostController,
+  getAllUserPostsController,
+  getAllUserDraftsController,
 };

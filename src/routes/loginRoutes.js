@@ -30,23 +30,7 @@ router.post("/register/user", registerValidator, registerController);
 
 router.post("/login", logincontroller);
 
-router.get(
-  "/protected",
-  passport.authenticate("jwt", { session: false }), // Use passport middleware to check the token
-  (req, res) => {
-    res.json({ message: "You are authenticated", user: req.user });
-  }
-);
-
 // for admin page
 router.post("/register/admin", registerValidator, registerAdminController);
-
-router.get(
-  "/adminProtected",
-  passportAdmin.authenticate("jwt", { session: false }), // Use passport middleware to check the token
-  (req, res) => {
-    res.json({ message: "You are authenticated admin", user: req.user });
-  }
-);
 
 module.exports = router;
