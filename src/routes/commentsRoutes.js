@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("../passport/passport");
+const isAuthorComment = require("../middleware/isAuthorComment");
 
 const {
   getCommentsController,
@@ -24,6 +25,7 @@ router.post(
 router.delete(
   "/posts/:postId/comments/:commentId",
   passport.authenticate("jwt", { session: false }),
+  isAuthorComment,
   deleteCommentController
 );
 
