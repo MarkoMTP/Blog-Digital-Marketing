@@ -10,6 +10,7 @@ let options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.JWT_SECRET;
 passportAdmin.use(
+  "admin-jwt",
   new JwtStrategy(options, async (jwtPayload, done) => {
     console.log("Decoded JWT Payload:", jwtPayload); // ✅ Add this
     try {

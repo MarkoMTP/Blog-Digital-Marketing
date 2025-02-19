@@ -21,12 +21,7 @@ router.get("/", (req, res) => {
   res.send("HomePage");
 });
 
-// normal page
-// router.get("/register")
-
 router.post("/register/user", registerValidator, registerController);
-
-// login get
 
 router.post("/login", logincontroller);
 

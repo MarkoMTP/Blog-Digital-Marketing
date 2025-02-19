@@ -20,7 +20,7 @@ const registerController = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       await addUserToDb(userName, email, hashedPassword);
 
-      return res.redirect("/login");
+      return res.send("Registration success");
     }
   } catch (err) {
     console.error(err);

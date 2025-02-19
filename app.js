@@ -9,6 +9,10 @@ const commentRoutes = require("./src/routes/commentsRoutes");
 const prisma = new PrismaClient();
 const app = express();
 
+const passport = require("passport");
+
+app.use(passport.initialize());
+
 app.use(express.static("public"));
 
 // Middleware
@@ -18,16 +22,14 @@ app.use(express.urlencoded({ extended: true }));
 const port = 9000;
 
 // Middleware
+
 app.use(cors());
+
 app.use(bodyParser.json());
 
 app.use(loginRoutes);
 app.use(postRoutes);
 app.use(commentRoutes);
-
-const passport = require("passport");
-
-app.use(passport.initialize());
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

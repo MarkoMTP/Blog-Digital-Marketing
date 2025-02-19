@@ -1,6 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-
 const passport = require("passport");
 
 let JwtStrategy = require("passport-jwt").Strategy,
@@ -9,19 +8,26 @@ let JwtStrategy = require("passport-jwt").Strategy,
 let options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.JWT_SECRET;
+
 passport.use(
   new JwtStrategy(options, async (jwtPayload, done) => {
+    console.log("🔹 JWT Payload Received:", jwtPayload); // Log the payload
+
     try {
       const user = await prisma.user.findUnique({
         where: { id: jwtPayload.id },
       });
+
       if (user) {
+        console.log("✅ User found:", user); // Log user data
         return done(null, user);
       } else {
-        return done(null, false);
+        console.log("❌ User not found in database");
+        return done(null, false, { message: "Unauthorized - User not found" });
       }
     } catch (err) {
-      return done(err, false);
+      console.error("🔥 Error during authentication:", err); // Log the error
+      return done(err, false, { message: "Authentication failed" });
     }
   })
 );

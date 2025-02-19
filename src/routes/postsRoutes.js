@@ -39,33 +39,33 @@ router.get(
 // for authors to see all their published blogs
 router.get(
   "/:userId/posts",
-  passportAdmin.authenticate("jwt", { session: false }),
+  passportAdmin.authenticate("admin-jwt", { session: false }),
   getAllUserPostsController
 );
 
 //to see all their unPublished posts
 router.get(
   "/:userId/drafts",
-  passportAdmin.authenticate("jwt", { session: false }),
+  passportAdmin.authenticate("admin-jwt", { session: false }),
   getAllUserDraftsController
 );
 
 router.post(
   "/posts",
-  passportAdmin.authenticate("jwt", { session: false }),
+  passportAdmin.authenticate("admin-jwt", { session: false }),
   createNewPostController
 );
 
 router.put(
   "/posts/:postId",
-  passportAdmin.authenticate("jwt", { session: false }),
+  passportAdmin.authenticate("admin-jwt", { session: false }),
   isAuthor,
   updatePostController
 );
 
 router.delete(
   "/posts/:postId",
-  passportAdmin.authenticate("jwt", { session: false }),
+  passportAdmin.authenticate("admin-jwt", { session: false }),
   isAuthor,
   deletePostController
 );
