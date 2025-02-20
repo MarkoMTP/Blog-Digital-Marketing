@@ -3,13 +3,20 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const findAllPosts = async function () {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    include: {
+      author: true, // Include the author (User) data
+    },
+  });
   return posts;
 };
 
 const findPost = async function (id) {
   const post = await prisma.post.findUnique({
     where: { id },
+    include: {
+      author: true, // Include the author (User) data
+    },
   });
   return post;
 };
@@ -52,6 +59,9 @@ const deletePost = async function (postId) {
 const getAllComments = async (postId) => {
   const result = await prisma.comment.findMany({
     where: { postId: postId },
+    include: {
+      author: true, // Include the author (User) data
+    },
   });
   return result;
 };
@@ -83,6 +93,9 @@ const findComment = async function (postId, commentId) {
 const getaAllUserPosts = async (userId) => {
   const posts = await prisma.post.findMany({
     where: { authorId: userId, isPublished: true },
+    include: {
+      author: true, // Include the author (User) data
+    },
   });
   return posts;
 };
@@ -90,6 +103,9 @@ const getaAllUserPosts = async (userId) => {
 const getaAllUserDrafts = async (userId) => {
   const posts = await prisma.post.findMany({
     where: { authorId: userId, isPublished: false },
+    include: {
+      author: true, // Include the author (User) data
+    },
   });
   return posts;
 };
