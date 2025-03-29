@@ -43,6 +43,7 @@ const createCommentController = async (req, res) => {
     await createComment(content, authorId, postId);
     const comments = await getAllComments(postId);
 
+    console.log("New Comment Added");
     res.json(comments);
   } catch (error) {
     console.error("Error creating comment:", error); // Log the exact error for debugging

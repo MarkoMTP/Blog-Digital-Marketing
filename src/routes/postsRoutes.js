@@ -59,7 +59,6 @@ router.post(
 router.put(
   "/posts/:postId",
   passportAdmin.authenticate("admin-jwt", { session: false }),
-  isAuthor,
   updatePostController
 );
 

@@ -6,6 +6,7 @@ const {
   deletePost,
   getaAllUserPosts,
   getaAllUserDrafts,
+  deleteAllComments,
 } = require("../db/postsQueries");
 
 const getPostsController = async (req, res) => {
@@ -88,6 +89,9 @@ const deletePostController = async (req, res) => {
       return res.status(404).send("Post not found");
     }
 
+    if (post.comments && post.comments.length > 0) {
+      await deleteAllComments(postId);
+    }
     await deletePost(postId);
     res.send("Post Deleted");
   } catch (error) {

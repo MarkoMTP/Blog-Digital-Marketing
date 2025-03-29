@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 const findAllPosts = async function () {
   const posts = await prisma.post.findMany({
     include: {
-      author: true, // Include the author (User) data
+      author: true,
+      comments: true, // Include the author (User) data
     },
   });
   return posts;
@@ -15,7 +16,15 @@ const findPost = async function (id) {
   const post = await prisma.post.findUnique({
     where: { id },
     include: {
-      author: true, // Include the author (User) data
+      comments: {
+        include: {
+          author: {
+            select: {
+              userName: true, // Ensure you select the needed fields
+            },
+          },
+        },
+      },
     },
   });
   return post;
@@ -60,7 +69,12 @@ const getAllComments = async (postId) => {
   const result = await prisma.comment.findMany({
     where: { postId: postId },
     include: {
-      author: true, // Include the author (User) data
+      author: {
+        select: {
+          id: true,
+          userName: true, // Ensure you select the field you need
+        },
+      },
     },
   });
   return result;
@@ -74,13 +88,6 @@ const createComment = async (content, authorId, postId) => {
       postId: postId,
     },
   });
-};
-
-const deleteComment = async (postId, commentId) => {
-  const result = await prisma.comment.delete({
-    where: { postId: postId, id: commentId },
-  });
-  return result;
 };
 
 const findComment = async function (postId, commentId) {
@@ -109,6 +116,20 @@ const getaAllUserDrafts = async (userId) => {
   });
   return posts;
 };
+
+const deleteComment = async (postId, commentId) => {
+  const result = await prisma.comment.delete({
+    where: { postId: postId, id: commentId },
+  });
+  return result;
+};
+
+const deleteAllComments = async (postId) => {
+  const result = await prisma.comment.deleteMany({
+    where: { postId: postId },
+  });
+  return result;
+};
 module.exports = {
   findAllPosts,
   createPost,
@@ -121,4 +142,5 @@ module.exports = {
   findComment,
   getaAllUserPosts,
   getaAllUserDrafts,
+  deleteAllComments,
 };

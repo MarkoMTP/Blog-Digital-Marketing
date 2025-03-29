@@ -11,15 +11,12 @@ options.secretOrKey = process.env.JWT_SECRET;
 
 passport.use(
   new JwtStrategy(options, async (jwtPayload, done) => {
-    console.log("🔹 JWT Payload Received:", jwtPayload); // Log the payload
-
     try {
       const user = await prisma.user.findUnique({
         where: { id: jwtPayload.id },
       });
 
       if (user) {
-        console.log("✅ User found:", user); // Log user data
         return done(null, user);
       } else {
         console.log("❌ User not found in database");
