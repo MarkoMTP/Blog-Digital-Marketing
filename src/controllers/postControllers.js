@@ -7,11 +7,12 @@ const {
   getaAllUserPosts,
   getaAllUserDrafts,
   deleteAllComments,
+  getaAllPublishedPosts,
 } = require("../db/postsQueries");
 
 const getPostsController = async (req, res) => {
   try {
-    const posts = await findAllPosts();
+    const posts = await getaAllPublishedPosts();
 
     if (!posts) {
       return res.status(404).send("Post not found");

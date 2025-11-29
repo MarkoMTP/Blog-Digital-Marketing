@@ -19,20 +19,13 @@ const {
   getAllUserPostsController,
   getAllUserDraftsController,
 } = require("../controllers/postControllers");
+const tryBothAuth = require("../middleware/tryBothAuth");
 
 //normal user
 
-router.get(
-  "/posts",
-  passport.authenticate("jwt", { session: false }),
-  getPostsController
-);
+router.get("/posts", tryBothAuth, getPostsController);
 
-router.get(
-  "/posts/:postId",
-  passport.authenticate("jwt", { session: false }),
-  getSpecificPostController
-);
+router.get("/posts/:postId", tryBothAuth, getSpecificPostController);
 
 // admin
 
