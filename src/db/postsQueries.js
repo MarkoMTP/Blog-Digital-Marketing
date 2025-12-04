@@ -130,6 +130,17 @@ const deleteAllComments = async (postId) => {
   });
   return result;
 };
+
+const getaAllPublishedPosts = async () => {
+  const posts = await prisma.post.findMany({
+    where: { isPublished: true },
+    include: {
+      author: true, // Include the author (User) data
+      comments: true,
+    },
+  });
+  return posts;
+};
 module.exports = {
   findAllPosts,
   createPost,
@@ -143,4 +154,5 @@ module.exports = {
   getaAllUserPosts,
   getaAllUserDrafts,
   deleteAllComments,
+  getaAllPublishedPosts,
 };

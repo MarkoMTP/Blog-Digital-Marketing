@@ -19,7 +19,6 @@ passport.use(
       if (user) {
         return done(null, user);
       } else {
-        console.log("❌ User not found in database");
         return done(null, false, { message: "Unauthorized - User not found" });
       }
     } catch (err) {
