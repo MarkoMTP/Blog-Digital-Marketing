@@ -13,24 +13,21 @@ const passport = require("passport");
 
 app.use(passport.initialize());
 
-app.use(express.static("public"));
-
 // Middleware
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const port = 9000;
-
-// Middleware
-
 app.use(cors());
-
 app.use(bodyParser.json());
 
+// Routes
 app.use(loginRoutes);
 app.use(postRoutes);
 app.use(commentRoutes);
 
+// IMPORTANT: Use Railway port
+const port = process.env.PORT || 9000;
+
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
